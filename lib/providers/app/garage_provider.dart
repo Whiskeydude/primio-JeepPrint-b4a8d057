@@ -15,9 +15,11 @@ class GarageProvider extends ChangeNotifier {
   late int _year;
   List<JeepPart> _results = const [];
   String? _downloadingId;
+  PrintFormat? _downloadingFormat;
   String? _exportMessage;
   bool _exportFailed = false;
 
+  PrintFormat? get downloadingFormat => _downloadingFormat;
   List<JeepModel> get models => _service.models;
   JeepModel get model => _model;
   int get year => _year;
@@ -45,24 +47,29 @@ class GarageProvider extends ChangeNotifier {
 
   JeepPart? partById(String id) => _service.partById(id);
 
-  Future<void> downloadStl(JeepPart part) async {
+  Future<void> download(JeepPart part, PrintFormat format) async {
     _downloadingId = part.id;
+    _downloadingFormat = format;
     _exportMessage = null;
     _exportFailed = false;
     notifyListeners();
     try {
-      final result = await _service.exportStl(part);
+      final result = switch (format) {
+        PrintFormat.stl => await _service.exportStl(part),
+        PrintFormat.threeMf => await _service.exportThreeMf(part),
+      };
       _exportMessage = switch (result) {
-        ExportResult.delivered => 'STL ready – send it to your print shop.',
+        ExportResult.delivered => '${format.label} ready – send it to your print shop.',
         ExportResult.dismissed => 'Download cancelled.',
         ExportResult.unavailable => 'Sharing is not available on this device.',
       };
       _exportFailed = result == ExportResult.unavailable;
     } catch (e) {
       _exportFailed = true;
-      _exportMessage = 'Could not export the STL file: $e';
+      _exportMessage = 'Could not export the ${format.label} file: $e';
     } finally {
       _downloadingId = null;
+      _downloadingFormat = null;
       notifyListeners();
     }
   }

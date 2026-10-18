@@ -6,6 +6,7 @@ import '../models/jeep_part.dart';
 import '../repositories/export_repository.dart';
 import '../repositories/parts_repository.dart';
 import 'stl_builder.dart';
+import 'three_mf_builder.dart';
 
 class PartsService {
   PartsService({
@@ -41,6 +42,25 @@ class PartsService {
       bytes: Uint8List.fromList(utf8.encode(stl)),
       fileName: 'jeepprint_$solidName.stl',
       mimeType: 'model/stl',
+      subject: 'JeepPrint – ${part.name} (${part.material})',
+    );
+  }
+
+  Future<ExportResult> exportThreeMf(JeepPart part) {
+    final solidName = part.id.replaceAll('-', '_');
+    final bytes = ThreeMfBuilder.bracket(
+      title: part.name,
+      material: part.material,
+      notes: part.printNotes,
+      width: part.widthMm,
+      depth: part.depthMm,
+      height: part.heightMm,
+      wall: part.wallMm,
+    );
+    return _export.shareFile(
+      bytes: bytes,
+      fileName: 'jeepprint_$solidName.3mf',
+      mimeType: 'model/3mf',
       subject: 'JeepPrint – ${part.name} (${part.material})',
     );
   }

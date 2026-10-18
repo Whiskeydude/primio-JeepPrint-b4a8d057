@@ -10,7 +10,6 @@ class _Tool {
 }
 
 const _tools = [
-  _Tool(Icons.view_in_ar_rounded, '3MF Export', 'Download parts as 3MF with print settings embedded.'),
   _Tool(Icons.storefront_rounded, 'Print Shop Finder', 'Find nearby 3D print shops and compare quotes.'),
   _Tool(Icons.forum_rounded, 'Share a Failure', 'Post your own broken-part report and photos.'),
   _Tool(Icons.garage_rounded, 'My Garage', 'Save several Jeeps and get alerts for new parts.'),

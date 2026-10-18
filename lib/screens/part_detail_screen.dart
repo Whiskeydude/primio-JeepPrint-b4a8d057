@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../models/export_result.dart';
 import '../models/jeep_part.dart';
 import '../providers/app/garage_provider.dart';
 import '../providers/app/premium_provider.dart';
@@ -19,9 +20,9 @@ class PartDetailScreen extends StatelessWidget {
 
   const PartDetailScreen({super.key, required this.partId});
 
-  Future<void> _download(BuildContext context, JeepPart part) async {
+  Future<void> _download(BuildContext context, JeepPart part, PrintFormat format) async {
     final garage = context.read<GarageProvider>();
-    await garage.downloadStl(part);
+    await garage.download(part, format);
     if (!context.mounted || garage.exportMessage == null || garage.exportFailed) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(garage.exportMessage!)));
   }
@@ -100,13 +101,10 @@ class PartDetailScreen extends StatelessWidget {
                           material: part.material,
                           printNotes: part.printNotes,
                           dimensions: '${part.widthMm.round()}×${part.depthMm.round()}×${part.heightMm.round()} mm',
-                          isDownloading: garage.downloadingId == part.id,
+                          downloadingFormat: garage.downloadingId == part.id ? garage.downloadingFormat : null,
                           errorMessage: garage.exportFailed ? garage.exportMessage : null,
-                          onDownloadStl: () => _download(context, part),
-                          onOpen3mf: () => context.push(Uri(path: '/soon', queryParameters: {
-                            'title': '3MF Export',
-                            'desc': 'Download parts as 3MF with print settings embedded.',
-                          }).toString()),
+                          onDownloadStl: () => _download(context, part, PrintFormat.stl),
+                          onDownload3mf: () => _download(context, part, PrintFormat.threeMf),
                         )
                       else
                         LockedSection(

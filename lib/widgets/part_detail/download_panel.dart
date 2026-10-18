@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 
+import '../../models/export_result.dart';
 import '../../theme/theme.dart';
 
 class DownloadPanel extends StatelessWidget {
   final String material;
   final String printNotes;
   final String dimensions;
-  final bool isDownloading;
+  final PrintFormat? downloadingFormat;
   final String? errorMessage;
   final VoidCallback onDownloadStl;
-  final VoidCallback onOpen3mf;
+  final VoidCallback onDownload3mf;
 
   const DownloadPanel({
     super.key,
     required this.material,
     required this.printNotes,
     required this.dimensions,
-    required this.isDownloading,
+    required this.downloadingFormat,
     required this.errorMessage,
     required this.onDownloadStl,
-    required this.onOpen3mf,
+    required this.onDownload3mf,
   });
+
+  bool get busy => downloadingFormat != null;
 
   @override
   Widget build(BuildContext context) {
@@ -45,25 +48,31 @@ class DownloadPanel extends StatelessWidget {
           Text(printNotes, style: text.bodyMedium?.copyWith(color: colors.onPrimaryContainer)),
           const SizedBox(height: AppTheme.spacingMd),
           FilledButton.icon(
-            onPressed: isDownloading ? null : onDownloadStl,
-            icon: isDownloading
+            onPressed: busy ? null : onDownloadStl,
+            icon: downloadingFormat == PrintFormat.stl
                 ? SizedBox(
                     width: AppTheme.progressSize,
                     height: AppTheme.progressSize,
                     child: CircularProgressIndicator(strokeWidth: AppTheme.progressStroke, color: colors.onPrimary),
                   )
                 : const Icon(Icons.download_rounded),
-            label: Text(isDownloading ? 'Preparing STL…' : 'Download STL'),
+            label: Text(downloadingFormat == PrintFormat.stl ? 'Preparing STL…' : 'Download STL'),
           ),
           const SizedBox(height: AppTheme.spacingSm),
           OutlinedButton.icon(
-            onPressed: onOpen3mf,
+            onPressed: busy ? null : onDownload3mf,
             style: OutlinedButton.styleFrom(
               foregroundColor: colors.onPrimaryContainer,
               side: BorderSide(color: colors.onPrimaryContainer.withValues(alpha: AppTheme.opacityHint)),
             ),
-            icon: const Icon(Icons.view_in_ar_rounded),
-            label: const Text('3MF – coming soon'),
+            icon: downloadingFormat == PrintFormat.threeMf
+                ? SizedBox(
+                    width: AppTheme.progressSize,
+                    height: AppTheme.progressSize,
+                    child: CircularProgressIndicator(strokeWidth: AppTheme.progressStroke, color: colors.onPrimaryContainer),
+                  )
+                : const Icon(Icons.view_in_ar_rounded),
+            label: Text(downloadingFormat == PrintFormat.threeMf ? 'Preparing 3MF…' : 'Download 3MF'),
           ),
           if (errorMessage != null) ...[
             const SizedBox(height: AppTheme.spacingSm),

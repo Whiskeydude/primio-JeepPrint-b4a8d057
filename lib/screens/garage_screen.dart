@@ -87,6 +87,22 @@ class GarageScreen extends StatelessWidget {
                   Uri(path: '/soon', queryParameters: {'title': title, 'desc': desc}).toString(),
                 ),
               )),
+              const SliverToBoxAdapter(child: SizedBox(height: AppTheme.spacingMd)),
+              section(Wrap(
+                alignment: WrapAlignment.center,
+                children: [
+                  TextButton.icon(
+                    onPressed: () => context.push('/privacy'),
+                    icon: const Icon(Icons.privacy_tip_outlined),
+                    label: const Text('Privacy policy'),
+                  ),
+                  TextButton.icon(
+                    onPressed: () => context.push('/admin'),
+                    icon: const Icon(Icons.admin_panel_settings_outlined),
+                    label: const Text('Admin'),
+                  ),
+                ],
+              )),
               const SliverToBoxAdapter(child: SizedBox(height: AppTheme.spacingXl)),
             ],
           ),

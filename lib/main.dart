@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'providers/app/garage_provider.dart';
 import 'providers/app/premium_provider.dart';
 import 'repositories/export_repository.dart';
 import 'repositories/parts_repository.dart';
 import 'repositories/purchases_repository.dart';
+import 'repositories/supabase_config.dart';
 import 'router/app_router.dart';
+import 'screens/startup_error_screen.dart';
 import 'services/parts_service.dart';
 import 'services/purchase_service.dart';
 import 'theme/theme.dart';
 
-void main() => runApp(const JeepPrintApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Supabase.initialize(url: SupabaseConfig.url, anonKey: SupabaseConfig.publishableKey);
+  } catch (e) {
+    runApp(MaterialApp(theme: AppTheme.theme, home: StartupErrorScreen(message: e.toString())));
+    return;
+  }
+  runApp(const JeepPrintApp());
+}
 
 class JeepPrintApp extends StatelessWidget {
   const JeepPrintApp({super.key});
