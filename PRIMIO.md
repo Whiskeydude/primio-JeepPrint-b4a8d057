@@ -6,7 +6,7 @@ Jeep owners pick model and year and see parts that commonly break, ranked by own
 ## Built vs Coming Soon
 - Built: model/year cross-reference, ranked problem parts, part detail with owner comments, dealer vs print price, STL download
 - Paywall: free preview (part summary, price compare, why it breaks, fitment, first comment); remaining comments and STL download need the one-time premium_unlimited purchase. Purchases work on Android/iOS builds only; web preview shows a "available in the app" message
-- Admin sign-in (/admin): Supabase email + password, only ecwfire@gmail.com is accepted (client check). The screen has no admin tools yet; any future admin data must also be protected by Supabase RLS, since client checks alone are not security
+- Admin sign-in (/admin): Supabase email + password, only ecwfire@gmail.com and edwincwright@yahoo.com are accepted (client check). The screen has no admin tools yet; any future admin data must also be protected by Supabase RLS, since client checks alone are not security
 - 3MF download sits next to STL in the part download panel (same paywall, same placeholder bracket geometry, material and print notes embedded as metadata)
 - Privacy policy (/privacy): in-app static page, linked from the main screen footer next to Admin; keep its text in sync with what the app stores and sends (Supabase auth, store billing, no analytics)
 - Coming soon (open /soon): Print Shop Finder, Share a Failure, My Garage

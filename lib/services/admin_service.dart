@@ -3,12 +3,17 @@ import '../repositories/admin_repository.dart';
 
 class AdminService {
   static const adminEmail = 'ecwfire@gmail.com';
+  static const secondAdminEmail = 'edwincwright@yahoo.com';
 
   final AdminRepository _repository;
 
   AdminService({required AdminRepository repository}) : _repository = repository;
 
-  bool _isAdmin(String? email) => email != null && email.trim().toLowerCase() == adminEmail;
+  bool _isAdmin(String? email) {
+    if (email == null) return false;
+    final normalized = email.trim().toLowerCase();
+    return normalized == adminEmail || normalized == secondAdminEmail;
+  }
 
   /// Email of the restored session when it belongs to the admin, otherwise null.
   String? restoredAdminEmail() {

@@ -14,7 +14,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.primio.jeepprint.wddtfv"
+    namespace = "com.jeepprint.apprelease"
     compileSdk = 37
     ndkVersion = "29.0.14033849"
 
@@ -25,7 +25,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.primio.jeepprint.wddtfv"
+        applicationId = "com.jeepprint.apprelease"
         minSdk = 26 // Android 8.0
         targetSdk = 37
         versionCode = flutter.versionCode
