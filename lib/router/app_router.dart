@@ -1,10 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/admin_provider.dart';
-import '../repositories/admin_repository.dart';
-import '../screens/admin_screen.dart';
-import '../services/admin_service.dart';
 import '../screens/coming_soon_screen.dart';
 import '../screens/garage_screen.dart';
 import '../screens/part_detail_screen.dart';
@@ -22,13 +16,6 @@ class AppRouter {
       ),
       GoRoute(path: '/premium', builder: (context, state) => const PaywallScreen()),
       GoRoute(path: '/privacy', builder: (context, state) => const PrivacyPolicyScreen()),
-      GoRoute(
-        path: '/admin',
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (_) => AdminProvider(service: AdminService(repository: AdminRepository()))..load(),
-          child: const AdminScreen(),
-        ),
-      ),
       GoRoute(
         path: '/soon',
         builder: (context, state) => ComingSoonScreen(

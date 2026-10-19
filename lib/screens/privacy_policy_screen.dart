@@ -36,12 +36,6 @@ class PrivacyPolicyScreen extends StatelessWidget {
                       'and is not sent to us.',
                 ),
                 PrivacySection(
-                  title: 'Admin sign-in',
-                  body: 'The admin screen signs in with an email address and password through Supabase, a '
-                      'third-party authentication service. Your session is kept on the device until you sign '
-                      'out. Public visitors do not need an account.',
-                ),
-                PrivacySection(
                   title: 'Purchases',
                   body: 'Unlimited access is sold through Google Play on Android and the App Store on iPhone. '
                       'Payment details are handled only by the store. JeepPrint receives confirmation that a '
